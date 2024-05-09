@@ -4,7 +4,17 @@ import flowbite from "flowbite-react/tailwind";
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content()],
   theme: {
+    
     extend: {
+      animation: {
+        'fade-in-left': 'wiggle 1s ease-in-out infinite',
+      },
+      colors: {
+        primary: "var(--color-primary)",
+        secondary: 'var(--color-secondary)',
+        tbase: 'var(--color-tbase)',
+        tcontrast: 'var(--color-tcontrast)',
+      },
       keyframes: {
         'fade-in-left': {
           "0%": {
@@ -17,10 +27,8 @@ export default {
           },
         },
       },
-      animation: {
-        'fade-in-left': 'wiggle 1s ease-in-out infinite',
-      }
     }
+ 
   },
   plugins: [flowbite.plugin()],
 };

@@ -89,30 +89,16 @@ function Create() {
 
   function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
   }) {
-    console.log(generateDesignColors
-      ({primaryColor, secondaryColor, fontBaseColor, fontContrastColor})
-    )
-    dispatch({
-      type: "coupon/setColors",
-      payload: generateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor}),
-      
-    });
+
+      document.documentElement.style.setProperty('--color-primary', primaryColor);
+      document.documentElement.style.setProperty('--color-secondary', secondaryColor);
+      document.documentElement.style.setProperty('--color-tbase', fontBaseColor);
+      document.documentElement.style.setProperty('--color-tcontrast', fontContrastColor);
   }
 
-  function generateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor
-     } : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
-  }) {
+  
+
  
-    return {
-     backgroundPrimaryColor: 'bg-['+ primaryColor + ']',
-     backgroundSecondaryColor: 'bg-[' + secondaryColor + ']',
-     borderSecondaryColor: 'border-y-[' + secondaryColor + ']',
-     fontBaseColor: 'text-[' + fontBaseColor + ']',
-     fontContrastColor: 'text-[' + fontContrastColor + ']',
-     size: 0,
-     name: '',
-    }
-  }
 
   return (
     <div className="flex h-screen">
@@ -128,7 +114,7 @@ function Create() {
         <Button onClick={() => updateDesignColors({
           primaryColor: "#2AC122", 
           secondaryColor: "#eeeeee",
-          fontBaseColor: "#0035FF", 
+          fontBaseColor: '#FFC300', 
           fontContrastColor: "#6C3483"
         })} />
 
