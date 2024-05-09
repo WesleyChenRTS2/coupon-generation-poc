@@ -12,11 +12,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { CouponState } from "../store/coupon/couponSlice";
 import { RootState, AppDispatch } from "../store/store";
 import { HiPlus, HiX } from "react-icons/hi";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Coupon } from "../types/Coupon";
 import PreviewFront from "../components/PreviewFront";
 import PreviewBack from "../components/PreviewBack";
 import { TemplateType } from "../types/Template";
+import ExportPDFButton from "../components/ExportPDFButton";
+
 
 function Create() {
   const [isAddCouponDialogOpen, setIsAddCouponDialogOpen] = useState(false);
@@ -114,16 +116,19 @@ function Create() {
         id="canvas"
         className=" flex h-screen grow flex-col items-center justify-center gap-6 overflow-y-auto p-12"
       >
+
+        <ExportPDFButton />
+        <div id="divToPrint" >
         {showFront ? (
           <PreviewFront coupon={coupon} templateType={frontTemplateType}/>
         ) : (
           <PreviewBack coupon={coupon} templateType={backTemplateType}/>
         )}
-       
-
+        </div>
         <Button onClick={() => setShowFront(!showFront)}>
           {showFront ? "Show back" : "Show front"}
         </Button>
+    
       </div>
       <div
         id="sidebar"
