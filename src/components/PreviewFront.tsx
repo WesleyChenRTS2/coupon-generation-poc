@@ -2,6 +2,7 @@ import { CouponState } from "../store/coupon/couponSlice";
 import { TemplateType } from "../types/Template";
 import TemplateA from "./templates/front/TemplateA";
 import TemplateB from "./templates/front/TemplateB";
+import TemplateC from "./templates/front/TemplateC";
 
 type Props = {
   coupon: CouponState;
@@ -19,6 +20,10 @@ function PreviewFront({ coupon, templateType }: Props) {
     case TemplateType.B:
       return (
         <TemplateB {...coupon} />
+      );
+    case TemplateType.C:
+      return (
+        <TemplateC {...coupon} />
       );
     default:
       return null;
