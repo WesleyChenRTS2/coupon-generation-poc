@@ -87,8 +87,7 @@ function Create() {
 
 
 
-  function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string,
-    fontBaseColor: string, fontContrastColor: string
+  function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
   }) {
     console.log(generateDesignColors
       ({primaryColor, secondaryColor, fontBaseColor, fontContrastColor})
@@ -110,6 +109,8 @@ function Create() {
      borderSecondaryColor: 'border-y-[' + secondaryColor + ']',
      fontBaseColor: 'text-[' + fontBaseColor + ']',
      fontContrastColor: 'text-[' + fontContrastColor + ']',
+     size: 0,
+     name: '',
     }
   }
 
