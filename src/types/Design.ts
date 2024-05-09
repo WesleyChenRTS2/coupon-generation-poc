@@ -1,5 +1,8 @@
 export interface Design {
   name: string;
-  color: string;
+  primaryColor: string;
+  backgroundPrimaryColor: string;
+  secondaryColor: string;
   size: number;
+  
 }

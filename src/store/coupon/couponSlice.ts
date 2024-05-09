@@ -24,8 +24,10 @@ export interface CouponState {
 
 const initialState: CouponState = {
   design: {
+    primaryColor: "#eeeeee",
     name: "",
-    color: "",
+    backgroundPrimaryColor: "bg-[#eeeeee]",
+    secondaryColor: "sky-400",
     size: 0,
   },
   expiration: "",
@@ -69,7 +71,7 @@ export const couponSlice = createSlice({
         ...action.payload.value,
       };
     },
-    addCoupon: (state, action: PayloadAction<{ payload: Coupon }>) => {
+    addCoupon: (state, action: PayloadAction<Coupon>) => {
       state.coupons.push(action.payload);
     },
     removeCoupon: (state, action: PayloadAction<number>) => {
