@@ -4,6 +4,7 @@ import {
   Label,
   Modal,
   Radio,
+  Select,
   TextInput,
   Textarea,
 } from "flowbite-react";
@@ -15,12 +16,15 @@ import { useEffect, useState } from "react";
 import { Coupon } from "../types/Coupon";
 import PreviewFront from "../components/PreviewFront";
 import PreviewBack from "../components/PreviewBack";
+import { TemplateType } from "../types/Template";
 
 function Create() {
   const [isAddCouponDialogOpen, setIsAddCouponDialogOpen] = useState(false);
   const [activeCouponIndex, setActiveCouponIndex] = useState<number | null>(
     null,
   );
+  const [frontTemplateType, setFrontTemplateType] = useState<TemplateType>(TemplateType.A);
+  const [backTemplateType, setBackTemplateType] = useState<TemplateType>(TemplateType.A);
   const [primaryColor, setPrimaryColor] = useState<string>("#f96302");
   const [secondaryColor, setSecondaryColor] = useState<string>("#333333");
   const [fontBaseColor, setFontBaseColor] = useState<string>("#333333");
@@ -111,9 +115,9 @@ function Create() {
         className=" flex h-screen grow flex-col items-center justify-center gap-6 overflow-y-auto p-12"
       >
         {showFront ? (
-          <PreviewFront coupon={coupon} />
+          <PreviewFront coupon={coupon} templateType={frontTemplateType}/>
         ) : (
-          <PreviewBack coupon={coupon} />
+          <PreviewBack coupon={coupon} templateType={backTemplateType}/>
         )}
        
 
@@ -125,6 +129,31 @@ function Create() {
         id="sidebar"
         className="h-screen w-96 shrink-0 overflow-y-scroll bg-gray-50 px-4 py-8 shadow-md"
       >
+        <div className="mb-3">
+          <Label htmlFor="front-template-type" value="Front Template Type" />
+          <Select
+            id="front-template-type"
+            onChange={(event) => setFrontTemplateType(event.target.value as TemplateType)}
+            value={frontTemplateType}
+          >
+            <option value={TemplateType.A}>Template A</option>
+            <option value={TemplateType.B}>Template B</option>
+            <option value={TemplateType.C}>Template C</option>
+          </Select>
+        </div>
+
+        <div className="mb-3">
+          <Label htmlFor="back-template-type" value="Back Template Type" />
+          <Select
+            id="back-template-type"
+            onChange={(event) => setBackTemplateType(event.target.value as TemplateType)}
+            value={backTemplateType}
+          >
+            <option value={TemplateType.A}>Template A</option>
+            <option value={TemplateType.B}>Template B</option>
+            <option value={TemplateType.C}>Template C</option>
+          </Select>
+        </div>
         <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
           <fieldset>
             <legend className="mb-4 text-xl font-bold">

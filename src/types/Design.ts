@@ -6,5 +6,4 @@ export interface Design {
   fontBaseColor: string;
   fontContrastColor: string;
   size: number;
-  
 }

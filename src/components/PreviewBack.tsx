@@ -1,11 +1,25 @@
 import { CouponState } from "../store/coupon/couponSlice";
 import portrait from "../assets/blog_family_life_compressed.jpg";
+import { TemplateType } from "../types/Template";
 
 type Props = {
   coupon: CouponState;
+  templateType: TemplateType;
 };
 
-function PreviewBack({ coupon }: Props) {
+function PreviewBack({ coupon, templateType }: Props) {
+  if (templateType === TemplateType.A) {
+    return (
+      <TemplateA {...coupon} />
+    );
+  }
+  return null;
+}
+
+export default PreviewBack;
+
+
+const TemplateA = (coupon : CouponState) => {
   return (
     <div className="flex h-[600px] w-[1200px] shrink-0 flex-nowrap shadow-xl">
       <div className="flex flex-1 grow flex-col bg-white text-tbase">
@@ -80,5 +94,3 @@ function PreviewBack({ coupon }: Props) {
     </div>
   );
 }
-
-export default PreviewBack;
