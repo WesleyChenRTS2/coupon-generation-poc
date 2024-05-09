@@ -94,7 +94,6 @@ function Create() {
 
   function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
   }) {
-
       document.documentElement.style.setProperty('--color-primary', primaryColor);
       document.documentElement.style.setProperty('--color-secondary', secondaryColor);
       document.documentElement.style.setProperty('--color-tbase', fontBaseColor);
