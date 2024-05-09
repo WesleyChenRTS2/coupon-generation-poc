@@ -24,10 +24,12 @@ export interface CouponState {
 
 const initialState: CouponState = {
   design: {
-    primaryColor: "#eeeeee",
     name: "",
-    backgroundPrimaryColor: "bg-[#eeeeee]",
-    secondaryColor: "sky-400",
+    backgroundPrimaryColor: "bg-[#FACA15]",
+    backgroundSecondaryColor: "bg-[#38BDF8]",
+    borderSecondaryColor: "border-y-[#38BDF8]",
+    fontBaseColor: "text-[#FF0000]",
+    fontContrastColor: "text-[#F9FAFB]",
     size: 0,
   },
   expiration: "",
@@ -114,6 +116,9 @@ export const couponSlice = createSlice({
     setWebsite: (state, action: PayloadAction<string>) => {
       state.website = action.payload;
     },
+    setColors: (state, action: PayloadAction<Design>) => {
+      state.design = action.payload;
+    }
   },
 });
 

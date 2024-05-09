@@ -14,7 +14,7 @@ function PreviewFront({ coupon }: Props) {
           <img src={logo} alt="Coupon" className="w-full" />
         </div>
         <div className="p-4">
-          <p className={`mb-8 border border-x-0 border-y-8 border-y-sky-400 py-8 text-center text-4xl font-bold`}>
+          <p className={`mb-8 border border-x-0 border-y-8 ${coupon.design.borderSecondaryColor} py-8 text-center text-4xl font-bold`}>
             {coupon.tagline || "Your tagline"}
           </p>
           <ul className="flex w-full flex-col items-center justify-center pl-8 text-xl">
@@ -27,18 +27,18 @@ function PreviewFront({ coupon }: Props) {
         </div>
       </div>
 
-      <div className="flex flex-1 grow flex-col bg-sky-400">
+      <div className={`flex flex-1 grow flex-col ${coupon.design.backgroundSecondaryColor}`}>
         <div className="shrink-0">
           <img src={portrait} alt="" />
         </div>
         <div className="flex grow flex-col items-center justify-center px-4">
-          <p className="mb-4 text-xl font-bold text-white">
+          <p className={`mb-4 text-xl font-bold ${coupon.design.fontContrastColor}`}>
             Call today or Conveniently Schedule Online!
           </p>
-          <p className="mb-4 rounded-full bg-yellow-300 px-12 py-4 text-3xl font-bold shadow">
+          <p className={`mb-4 rounded-full ${coupon.design.backgroundPrimaryColor} ${coupon.design.fontBaseColor} px-12 py-4 text-3xl font-bold shadow`}>
             {coupon.nap?.phone || "Your phone number"}
           </p>
-          <p className="text-xl font-bold text-white">
+          <p className={`text-xl font-bold ${coupon.design.fontContrastColor}`}>
             {coupon.website || "yourwebsite.com"}
           </p>
         </div>

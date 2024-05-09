@@ -85,6 +85,34 @@ function Create() {
     });
   }
 
+
+
+  function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string,
+    fontBaseColor: string, fontContrastColor: string
+  }) {
+    console.log(generateDesignColors
+      ({primaryColor, secondaryColor, fontBaseColor, fontContrastColor})
+    )
+    dispatch({
+      type: "coupon/setColors",
+      payload: generateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor}),
+      
+    });
+  }
+
+  function generateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor
+     } : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
+  }) {
+ 
+    return {
+     backgroundPrimaryColor: 'bg-['+ primaryColor + ']',
+     backgroundSecondaryColor: 'bg-[' + secondaryColor + ']',
+     borderSecondaryColor: 'border-y-[' + secondaryColor + ']',
+     fontBaseColor: 'text-[' + fontBaseColor + ']',
+     fontContrastColor: 'text-[' + fontContrastColor + ']',
+    }
+  }
+
   return (
     <div className="flex h-screen">
       <div
@@ -96,6 +124,12 @@ function Create() {
         ) : (
           <PreviewBack coupon={coupon} />
         )}
+        <Button onClick={() => updateDesignColors({
+          primaryColor: "#2AC122", 
+          secondaryColor: "#eeeeee",
+          fontBaseColor: "#0035FF", 
+          fontContrastColor: "#6C3483"
+        })} />
 
         <Button onClick={() => setShowFront(!showFront)}>
           {showFront ? "Show back" : "Show front"}
