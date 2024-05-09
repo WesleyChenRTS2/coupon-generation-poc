@@ -21,10 +21,10 @@ function Create() {
   const [activeCouponIndex, setActiveCouponIndex] = useState<number | null>(
     null,
   );
-  const [primaryColor, setPrimaryColor] = useState<string>("#2AC122");
-  const [secondaryColor, setSecondaryColor] = useState<string>("#eeeeee");
-  const [fontBaseColor, setFontBaseColor] = useState<string>("#FFC300");
-  const [fontContrastColor, setFontContrastColor] = useState<string>("#6C3483");
+  const [primaryColor, setPrimaryColor] = useState<string>("#f96302");
+  const [secondaryColor, setSecondaryColor] = useState<string>("#333333");
+  const [fontBaseColor, setFontBaseColor] = useState<string>("#333333");
+  const [fontContrastColor, setFontContrastColor] = useState<string>("#ffffff");
 
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     title: "",
