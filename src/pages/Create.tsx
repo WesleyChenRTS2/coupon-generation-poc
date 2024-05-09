@@ -138,7 +138,7 @@ function Create() {
           >
             <option value={TemplateType.A}>Template A</option>
             <option value={TemplateType.B}>Template B</option>
-            <option value={TemplateType.C}>Template C</option>
+            {/* <option value={TemplateType.C}>Template C</option> */}
           </Select>
         </div>
 
@@ -150,8 +150,8 @@ function Create() {
             value={backTemplateType}
           >
             <option value={TemplateType.A}>Template A</option>
-            <option value={TemplateType.B}>Template B</option>
-            <option value={TemplateType.C}>Template C</option>
+            {/* <option value={TemplateType.B}>Template B</option>
+            <option value={TemplateType.C}>Template C</option> */}
           </Select>
         </div>
         <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit}>
