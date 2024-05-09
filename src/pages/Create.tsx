@@ -21,6 +21,11 @@ function Create() {
   const [activeCouponIndex, setActiveCouponIndex] = useState<number | null>(
     null,
   );
+  const [primaryColor, setPrimaryColor] = useState<string>("#2AC122");
+  const [secondaryColor, setSecondaryColor] = useState<string>("#eeeeee");
+  const [fontBaseColor, setFontBaseColor] = useState<string>("#FFC300");
+  const [fontContrastColor, setFontContrastColor] = useState<string>("#6C3483");
+
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     title: "",
     description: "",
@@ -111,12 +116,7 @@ function Create() {
         ) : (
           <PreviewBack coupon={coupon} />
         )}
-        <Button onClick={() => updateDesignColors({
-          primaryColor: "#2AC122", 
-          secondaryColor: "#eeeeee",
-          fontBaseColor: '#FFC300', 
-          fontContrastColor: "#6C3483"
-        })} />
+       
 
         <Button onClick={() => setShowFront(!showFront)}>
           {showFront ? "Show back" : "Show front"}
@@ -166,6 +166,62 @@ function Create() {
                 }
               />
             </div>
+
+           
+              <div className="mb-2 block">
+                <Label htmlFor="primary-color" value="Primary Color" className="mr-3" />
+                <input
+                  type="color"
+                  id="primary-color"
+                  className="align-middle"
+                  value={primaryColor}
+                  onChange={(event) => setPrimaryColor(event.target.value)}
+
+                />
+              </div>
+
+              <div className="mb-2 block">
+                <Label htmlFor="secondary-color" value="Secondary Color" className="mr-3" />
+                <input
+                  type="color"
+                  id="secondary-color"
+                  className="align-middle"
+                  value={secondaryColor}
+                  onChange={(event) => setSecondaryColor(event.target.value)}
+                />
+
+              </div>
+              <div className="mb-2 block">
+                <Label htmlFor="font-base-color" value="Font Base Color" className="mr-3" />
+                <input
+                  type="color"
+                  id="font-base-color"
+                  className="align-middle"
+                  value={fontBaseColor}
+                  onChange={(event) => setFontBaseColor(event.target.value)}
+                />
+              </div>
+
+              <div className="mb-2 block">
+                <Label htmlFor="font-contrast-color" value="Font Contrast Color" className="mr-3" />
+                <input
+                  type="color"
+                  id="font-contrast-color"
+                  className="align-middle"
+                  value={fontContrastColor}
+                  onChange={(event) => setFontContrastColor(event.target.value)}
+                />
+              </div>
+
+              <Button onClick={() => updateDesignColors({
+                primaryColor: primaryColor,
+                secondaryColor: secondaryColor,
+                fontBaseColor: fontBaseColor,
+                fontContrastColor: fontContrastColor
+              })} >
+                Update Design
+              </Button>
+ 
           </fieldset>
 
           <hr className="my-4" />
