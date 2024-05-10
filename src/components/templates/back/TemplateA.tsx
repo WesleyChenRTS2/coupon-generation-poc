@@ -4,7 +4,7 @@ import { CouponState } from "../../../store/coupon/couponSlice";
 
 const TemplateA = (coupon : CouponState) => {
     return (
-      <div className="flex h-[600px] w-[1200px] shrink-0 flex-nowrap shadow-xl">
+      <div className="flex h-[600px] w-[1200px] shrink-0 flex-nowrap">
         <div className="flex flex-1 grow flex-col bg-white text-tbase">
           <div className="grow">
             <div className="flex justify-between p-8">

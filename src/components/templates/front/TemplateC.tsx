@@ -3,7 +3,7 @@ import portrait from "../../../assets/blog_family_life_compressed.jpg";
 
 const TemplateC = ( coupon : CouponState) => {
     return (
-        <div className="relative flex h-[600px] w-[1200px] items-center justify-center bg-primary text-tcontrast shadow-xl">
+        <div className="relative flex h-[600px] w-[1200px] items-center justify-center bg-primary text-tcontrast">
             <img src={portrait} alt="" className="absolute left-0 top-0 h-full w-1/2 object-cover opacity-75" />
             <div className="z-10 flex w-full flex-wrap items-center justify-around">
                 <div className="flex flex-col items-center p-4">

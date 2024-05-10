@@ -6,7 +6,7 @@ const TemplateB = (coupon : CouponState) => {
    
 
     return (
-        <div className="flex h-[600px] w-[1200px] flex-row bg-primary text-tcontrast shadow-xl">
+        <div className="flex h-[600px] w-[1200px] flex-row bg-primary text-tcontrast">
             <div className="flex w-1/2 flex-col">
                 <div className="grow">
                     <img src={portrait} alt="" className="size-full object-cover" />

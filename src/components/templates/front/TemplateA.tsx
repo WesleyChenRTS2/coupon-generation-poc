@@ -4,7 +4,7 @@ import portrait from "../../../assets/blog_family_life_compressed.jpg";
 
 const TemplateA = (coupon : CouponState) => {
     return (
-      <div className={`flex h-[600px] w-[1200px] shrink-0 flex-nowrap bg-primary text-tcontrast shadow-xl`}>
+      <div className={`flex h-[600px] w-[1200px] shrink-0 flex-nowrap bg-primary text-tcontrast`}>
         <div className="flex-1 grow">
           <div className="px-8 pb-4 pt-12">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-full fill-secondary"  viewBox="0 0 220 40">

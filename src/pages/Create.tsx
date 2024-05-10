@@ -17,7 +17,6 @@ import { Coupon } from "../types/Coupon";
 import PreviewFront from "../components/PreviewFront";
 import PreviewBack from "../components/PreviewBack";
 import { TemplateType } from "../types/Template";
-import ExportPDFButton from "../components/ExportPDFButton";
 
 
 function Create() {
@@ -41,7 +40,6 @@ function Create() {
     discount: 0,
     finePrint: "",
   });
-  const [showFront, setShowFront] = useState(true);
 
   const coupon: CouponState = useSelector((state: RootState) => state.coupon);
   const dispatch: AppDispatch = useDispatch();
@@ -96,8 +94,6 @@ function Create() {
     });
   }
 
-
-
   function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
   }) {
       document.documentElement.style.setProperty('--color-primary', primaryColor);
@@ -106,33 +102,25 @@ function Create() {
       document.documentElement.style.setProperty('--color-tcontrast', fontContrastColor);
   }
 
-  
-
- 
-
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen " >
       <div
         id="canvas"
-        className=" flex h-screen grow flex-col items-center justify-center gap-6 overflow-y-auto p-12"
+        className="flex h-screen grow flex-col items-center justify-center gap-6 overflow-y-auto p-12 print:block"
       >
-
-        <ExportPDFButton />
-        <div id="divToPrint" >
-        {showFront ? (
+    
+    
+        <div className='space-y-8'>
           <PreviewFront coupon={coupon} templateType={frontTemplateType}/>
-        ) : (
           <PreviewBack coupon={coupon} templateType={backTemplateType}/>
-        )}
         </div>
-        <Button onClick={() => setShowFront(!showFront)}>
-          {showFront ? "Show back" : "Show front"}
-        </Button>
+  
+        
     
       </div>
       <div
         id="sidebar"
-        className="h-screen w-96 shrink-0 overflow-y-scroll bg-gray-50 px-4 py-8 shadow-md"
+        className=" h-screen w-96 shrink-0 overflow-y-scroll bg-gray-50 px-4 py-8 shadow-md print:hidden"
       >
         <div className="mb-3">
           <Label htmlFor="front-template-type" value="Front Template Type" />
