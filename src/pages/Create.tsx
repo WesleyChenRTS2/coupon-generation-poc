@@ -17,6 +17,7 @@ import { Coupon } from "../types/Coupon";
 import PreviewFront from "../components/PreviewFront";
 import PreviewBack from "../components/PreviewBack";
 import { TemplateType } from "../types/Template";
+import { Bars } from "react-loader-spinner";
 
 
 function Create() {
@@ -26,10 +27,13 @@ function Create() {
   );
   const [frontTemplateType, setFrontTemplateType] = useState<TemplateType>(TemplateType.A);
   const [backTemplateType, setBackTemplateType] = useState<TemplateType>(TemplateType.A);
-  const [primaryColor, setPrimaryColor] = useState<string>("#f96302");
-  const [secondaryColor, setSecondaryColor] = useState<string>("#333333");
-  const [fontBaseColor, setFontBaseColor] = useState<string>("#333333");
-  const [fontContrastColor, setFontContrastColor] = useState<string>("#ffffff");
+  const [primaryColor, setPrimaryColor] = useState<string>("#ffcc00");
+  const [secondaryColor, setSecondaryColor] = useState<string>("#353535");
+  const [fontBaseColor, setFontBaseColor] = useState<string>("#f5f5f5");
+  const [fontContrastColor, setFontContrastColor] = useState<string>("#808080");
+  const [templateUrl, setTemplateUrl] = useState<string>("");
+  const [viewFront, setViewFront] = useState<boolean>(true);
+  const [isLoadingColorScheme, setIsLoadingColorScheme] = useState<boolean>(false);
 
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     title: "",
@@ -94,6 +98,10 @@ function Create() {
     });
   }
 
+  function handleToggle() {
+    setViewFront(!viewFront);
+  };
+
   function updateDesignColors({primaryColor, secondaryColor, fontBaseColor, fontContrastColor} : {primaryColor: string, secondaryColor: string, fontBaseColor: string, fontContrastColor: string
   }) {
       document.documentElement.style.setProperty('--color-primary', primaryColor);
@@ -102,21 +110,79 @@ function Create() {
       document.documentElement.style.setProperty('--color-tcontrast', fontContrastColor);
   }
 
+  function normalizeHexCode(hex: string) {
+    // Remove the leading '#' if present
+    hex = hex.replace('#', '');
+    
+    // Check if the length is 3 characters
+    if (hex.length === 3) {
+      // Double each character
+      hex = hex.split('').map(char => char + char).join('');
+    }
+    
+    // Add the leading '#' back
+    return `#${hex}`;
+  }
+
+  async function fetchColorSchemeSuggestion(url: string) {
+    setIsLoadingColorScheme(true);
+    try {
+      const response = await fetch(`https://mailshark-colorgen-api.vercel.app/color_scheme_suggestion?url=${encodeURIComponent(url)}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data)
+
+      const primaryColor = normalizeHexCode(data.Primary);
+      const secondaryColor = normalizeHexCode(data.Secondary);
+      const fontBaseColor = data.FontBase ? normalizeHexCode(data.FontBase): normalizeHexCode(data.BaseFont);
+      const fontContrastColor = data.FontContrast ? normalizeHexCode(data.FontContrast): normalizeHexCode(data.ContrastFont);
+
+      // Update the design colors
+      setPrimaryColor(primaryColor);
+      setSecondaryColor(secondaryColor);
+      setFontBaseColor(fontBaseColor);
+      setFontContrastColor(fontContrastColor);
+
+      updateDesignColors({
+        primaryColor: primaryColor,
+        secondaryColor: secondaryColor,
+        fontBaseColor: fontBaseColor,
+        fontContrastColor: fontContrastColor
+      })
+      setIsLoadingColorScheme(false);
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch color scheme suggestion:', error);
+      setIsLoadingColorScheme(false); 
+      return null;
+    }
+  }
+
   return (
     <div className="flex h-screen " >
       <div
         id="canvas"
-        className="flex h-screen grow flex-col items-center justify-center gap-6 overflow-y-auto p-12 print:block"
+        className="flex grow flex-col items-center justify-center gap-6 overflow-y-auto print:block"
       >
-    
-    
         <div className='space-y-8'>
-          <PreviewFront coupon={coupon} templateType={frontTemplateType}/>
-          <PreviewBack coupon={coupon} templateType={backTemplateType}/>
+        <h2 className="mt-4 text-center text-4xl font-bold uppercase tracking-wide text-primary print:hidden">
+    {viewFront ? 'Front' : 'Back'}
+  </h2>
+  <button
+    onClick={handleToggle}
+    className="hover:bg-primary-dark mt-8 rounded-lg bg-primary px-6 py-3 font-semibold text-tcontrast print:hidden shadow-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-75"
+  >
+    {viewFront ? 'Switch to Back' : 'Switch to Front'}
+  </button>
+
+  {viewFront ? (
+    <PreviewFront coupon={coupon} templateType={frontTemplateType} />
+  ) : (
+    <PreviewBack coupon={coupon} templateType={backTemplateType} />
+  )}
         </div>
-  
-        
-    
       </div>
       <div
         id="sidebar"
@@ -188,6 +254,41 @@ function Create() {
               />
             </div>
 
+            <div className="mb-3">
+              <div className="mb-2 block">
+                <Label htmlFor="template URL" value="Template URL" />
+              </div>
+              <TextInput
+                id="template-url"
+                type="text"
+                placeholder="ex. www.mywebsite.com"
+                onChange={(event) =>
+                  setTemplateUrl(event.target.value)
+                }
+              />
+            </div>
+
+            <legend className="my-4 text-xl font-bold">
+              Design Information
+            </legend>
+
+            <Button 
+              onClick={() => {fetchColorSchemeSuggestion(templateUrl)}} 
+              disabled={!templateUrl || isLoadingColorScheme} 
+              className="my-4"
+              // isLoading={isLoadingColorScheme}
+            >
+                Generate design from URL
+              </Button>
+              <Bars
+              height="40"
+              width="80"
+              color="#0e7490"
+              ariaLabel="bars-loading"
+              wrapperStyle={{}}
+              wrapperClass="bars-wrapper"
+              visible={isLoadingColorScheme}
+              />
            
               <div className="mb-2 block">
                 <Label htmlFor="primary-color" value="Primary Color" className="mr-3" />
