@@ -35,8 +35,9 @@ function Create() {
   const [imageDescription, setImageDescription] = useState<string>("");
   const [viewFront, setViewFront] = useState<boolean>(true);
   const [isLoadingColorScheme, setIsLoadingColorScheme] = useState<boolean>(false);
-  const [isLoadingDescription, setIsLoadingDescription] = useState<boolean>(false);
+  const [isLoadingDescription] = useState<boolean>(false);
   const [isLoadingLogo, setIsLoadingLogo] = useState<boolean>(false);
+  const [manualImageUrl, setManualImageUrl] = useState<string>("");
 
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     title: "",
@@ -192,48 +193,55 @@ function Create() {
     fetchLogoFromUrl(url);
   }
 
-  async function fetchImageFromDescription(description: string) {
-    setIsLoadingDescription(true);
-    try {
-      const response = await fetch(
-        `https://mailshark-colorgen-api.vercel.app/generate_image`, 
-        {body: JSON.stringify({
-          description: description,
-          primary_color: primaryColor,
-          secondaryColor: secondaryColor,
-          size: "1024x1024"
-        }), 
-        method: 'POST', 
-        headers: {'Content-Type': 'application/json'}}
-      );
+  // async function fetchImageFromDescription(description: string) {
+  //   setIsLoadingDescription(true);
+  //   try {
+  //     const response = await fetch(
+  //       `https://mailshark-colorgen-api.vercel.app/generate_image`, 
+  //       {body: JSON.stringify({
+  //         description: description,
+  //         primary_color: primaryColor,
+  //         secondaryColor: secondaryColor,
+  //         size: "1024x1024"
+  //       }), 
+  //       method: 'POST', 
+  //       headers: {'Content-Type': 'application/json'}}
+  //     );
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      console.log(data)
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok');
+  //     }
+  //     const data = await response.json();
+  //     console.log(data)
 
-      // TODO: HARDCODED URL FOR TESTING
-      data.image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
+  //     // TODO: HARDCODED URL FOR TESTING
+  //     data.image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
 
-      dispatch({
-        type: "coupon/setImage",
-        payload: data.image_url,
-      })
-      setIsLoadingDescription(false);
-    } catch (error) {
-      console.error('Failed to fetch color scheme suggestion:', error);
-      setIsLoadingDescription(false);
-      // TODO: HARDCODED URL FOR TESTING
-      const image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
+  //     dispatch({
+  //       type: "coupon/setImage",
+  //       payload: data.image_url,
+  //     })
+  //     setIsLoadingDescription(false);
+  //   } catch (error) {
+  //     console.error('Failed to fetch color scheme suggestion:', error);
+  //     setIsLoadingDescription(false);
+  //     // TODO: HARDCODED URL FOR TESTING
+  //     const image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
 
-      // TODO REMOVE
-      dispatch({
-        type: "coupon/setImage",
-        payload: image_url,
-      }) 
-      return null;
-    }
+  //     // TODO REMOVE
+  //     dispatch({
+  //       type: "coupon/setImage",
+  //       payload: image_url,
+  //     }) 
+  //     return null;
+  //   }
+  // }
+
+  function manualSetImageUrl(url: string) {
+    dispatch({
+      type: "coupon/setImage",
+      payload: url,
+    })
   }
 
   return (
@@ -436,11 +444,26 @@ function Create() {
                 />
               </div>
 
+              <div className="mb-1">
+              <div className="mb-2 block">
+                <Label htmlFor="image URL" value="Image URL" />
+              </div>
+              <TextInput
+                id="image-url"
+                type="text"
+                placeholder="ex. www.myimage.com"
+                onChange={(event) =>
+                  setManualImageUrl(event.target.value)
+                }
+              />
+            </div>
+
               <div className="flex items-center space-x-4">
                 <Button 
-                  disabled={!imageDescription || isLoadingDescription}
+                  disabled={!manualImageUrl}
                   onClick={() => {
-                    fetchImageFromDescription(imageDescription)
+                    // fetchImageFromDescription(imageDescription)
+                    manualSetImageUrl(manualImageUrl)
                   }
                 } >
                   Generate Image
