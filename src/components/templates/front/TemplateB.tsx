@@ -9,7 +9,11 @@ const TemplateB = (coupon : CouponState) => {
         <div className="flex h-[600px] w-[1200px] flex-row bg-primary text-tcontrast">
             <div className="flex w-1/2 flex-col">
                 <div className="grow">
-                    <img src={portrait} alt="" className="size-full object-cover" />
+                <img 
+                    src={coupon.image || portrait} 
+                    alt="" 
+                    className="size-full object-cover"
+                />
                 </div>
                 <div className="flex flex-col items-center justify-center bg-secondary p-4 text-tcontrast">
                     <p className="mb-4 text-xl font-bold">Call today or Conveniently Schedule Online!</p>

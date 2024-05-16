@@ -32,8 +32,11 @@ function Create() {
   const [fontBaseColor, setFontBaseColor] = useState<string>("#f5f5f5");
   const [fontContrastColor, setFontContrastColor] = useState<string>("#808080");
   const [templateUrl, setTemplateUrl] = useState<string>("");
+  const [imageDescription, setImageDescription] = useState<string>("");
   const [viewFront, setViewFront] = useState<boolean>(true);
   const [isLoadingColorScheme, setIsLoadingColorScheme] = useState<boolean>(false);
+  const [isLoadingDescription, setIsLoadingDescription] = useState<boolean>(false);
+  const [isLoadingLogo, setIsLoadingLogo] = useState<boolean>(false);
 
   const [newCoupon, setNewCoupon] = useState<Coupon>({
     title: "",
@@ -160,6 +163,79 @@ function Create() {
     }
   }
 
+  async function fetchLogoFromUrl(url: string) {
+    setIsLoadingLogo(true);
+    try {
+      const response = await fetch(`https://mailshark-colorgen-api.vercel.app/fetch_logo?url=${encodeURIComponent(url)}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data)
+
+      dispatch({
+        type: "coupon/setLogo",
+        payload: data.logo_url,
+      })
+
+      setIsLoadingLogo(false);
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch color scheme suggestion:', error);
+      setIsLoadingLogo(false); 
+      return null;
+    }
+  }
+
+  function fetchDataFromTemplateUrl(url: string) {
+    fetchColorSchemeSuggestion(url);
+    fetchLogoFromUrl(url);
+  }
+
+  async function fetchImageFromDescription(description: string) {
+    setIsLoadingDescription(true);
+    try {
+      const response = await fetch(
+        `https://mailshark-colorgen-api.vercel.app/generate_image`, 
+        {body: JSON.stringify({
+          description: description,
+          primary_color: primaryColor,
+          secondaryColor: secondaryColor,
+          size: "1024x1024"
+        }), 
+        method: 'POST', 
+        headers: {'Content-Type': 'application/json'}}
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log(data)
+
+      // TODO: HARDCODED URL FOR TESTING
+      data.image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
+
+      dispatch({
+        type: "coupon/setImage",
+        payload: data.image_url,
+      })
+      setIsLoadingDescription(false);
+    } catch (error) {
+      console.error('Failed to fetch color scheme suggestion:', error);
+      setIsLoadingDescription(false);
+      // TODO: HARDCODED URL FOR TESTING
+      const image_url = "https://cdn.creatureandcoagency.com/uploads/2017/09/Hippo-Facts-2.jpg"
+
+      // TODO REMOVE
+      dispatch({
+        type: "coupon/setImage",
+        payload: image_url,
+      }) 
+      return null;
+    }
+  }
+
   return (
     <div className="flex h-screen " >
       <div
@@ -253,8 +329,11 @@ function Create() {
                 }
               />
             </div>
+            <legend className="my-4 text-xl font-bold">
+              Design Information
+            </legend>
 
-            <div className="mb-3">
+            <div className="mb-1">
               <div className="mb-2 block">
                 <Label htmlFor="template URL" value="Template URL" />
               </div>
@@ -268,27 +347,25 @@ function Create() {
               />
             </div>
 
-            <legend className="my-4 text-xl font-bold">
-              Design Information
-            </legend>
 
-            <Button 
-              onClick={() => {fetchColorSchemeSuggestion(templateUrl)}} 
-              disabled={!templateUrl || isLoadingColorScheme} 
-              className="my-4"
-              // isLoading={isLoadingColorScheme}
-            >
-                Generate design from URL
-              </Button>
-              <Bars
-              height="40"
-              width="80"
-              color="#0e7490"
-              ariaLabel="bars-loading"
-              wrapperStyle={{}}
-              wrapperClass="bars-wrapper"
-              visible={isLoadingColorScheme}
-              />
+            <div className="flex items-center space-x-4">
+              <Button 
+                onClick={() => {fetchDataFromTemplateUrl(templateUrl)}} 
+                disabled={!templateUrl || isLoadingColorScheme || isLoadingLogo} 
+                className="my-4"
+              >
+                  Generate design from URL
+                </Button>
+                <Bars
+                height="40"
+                width="80"
+                color="#0e7490"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass="bars-wrapper"
+                visible={isLoadingColorScheme}
+                />
+              </div>
            
               <div className="mb-2 block">
                 <Label htmlFor="primary-color" value="Primary Color" className="mr-3" />
@@ -343,6 +420,42 @@ function Create() {
               })} >
                 Update Design
               </Button>
+
+              <div className="my-3">
+                <div className="mb-2 block">
+                  <Label htmlFor="imageDescription" value="Image description" />
+                </div>
+                <Textarea
+                  id="imageDescription"
+                  placeholder="Provide a description of an image you want to use"
+                  required
+                  onChange={(event) =>
+                    setImageDescription(event.target.value)
+                  }
+                  value={imageDescription}
+                />
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <Button 
+                  disabled={!imageDescription || isLoadingDescription}
+                  onClick={() => {
+                    fetchImageFromDescription(imageDescription)
+                  }
+                } >
+                  Generate Image
+                </Button>
+
+                <Bars
+                height="40"
+                width="80"
+                color="#0e7490"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass="bars-wrapper"
+                visible={isLoadingDescription}
+                />
+              </div>
  
           </fieldset>
 

@@ -27,7 +27,10 @@ const TemplateA = (coupon : CouponState) => {
   
         <div className={`flex flex-1 grow flex-col bg-secondary text-tcontrast `}>
           <div className="shrink-0">
-            <img src={portrait} alt="" />
+            <img 
+              src={coupon.image || portrait} 
+              alt="" 
+            />
           </div>
           <div className="flex grow flex-col items-center justify-center px-4">
             <p className={`mb-4 text-xl font-bold`}>

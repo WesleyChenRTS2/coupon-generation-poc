@@ -9,8 +9,8 @@ export interface CouponState {
   coupons: Coupon[];
   design: Design;
   expiration: string;
-  image: File | null;
-  logo: File | null;
+  image: string | null;
+  logo: string | null;
   nap: {
     name: string;
     address: string;
@@ -83,7 +83,6 @@ export const couponSlice = createSlice({
       state,
       action: PayloadAction<{ index: number; value: string }>,
     ) => {
-      console.log(action.payload);
       state.services[action.payload.index] = action.payload.value;
     },
     addService: (state) => {
@@ -98,10 +97,10 @@ export const couponSlice = createSlice({
     setExpiration: (state, action: PayloadAction<string>) => {
       state.expiration = action.payload;
     },
-    setImage: (state, action: PayloadAction<File>) => {
+    setImage: (state, action: PayloadAction<string>) => {
       state.image = action.payload;
     },
-    setLogo: (state, action: PayloadAction<File>) => {
+    setLogo: (state, action: PayloadAction<string>) => {
       state.logo = action.payload;
     },
     setNap: (state, action: PayloadAction<CouponState["nap"]>) => {

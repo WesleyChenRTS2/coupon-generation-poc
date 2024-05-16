@@ -10,7 +10,7 @@ const TemplateA = (coupon : CouponState) => {
             <div className="flex justify-between p-8">
               <div className="relative size-48 overflow-hidden rounded-full border-8 border-secondary">
                 <img
-                  src={portrait}
+                  src={coupon.image || portrait}
                   className="absolute left-0 top-0 size-full object-cover"
                 />
               </div>
